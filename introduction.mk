@@ -18,14 +18,86 @@ facilitate access to DOM API implementation of the layout engine.
 
 The DOM API is not very well standard across different browsers so that why various DOM manipulation
 javascript libraries (e.g. jQuery) are created to solve this problem. These libaries can provide some
-additional features addressing to some obstacles of Javascript language and core lib to make programming 
-in browser less painful e.g. API for Ajax.
+additional features addressing to some obstacles of Javascript language and its core lib to make 
+programming in browser less painful e.g. API for Ajax.
 
 **Javascript MVC**
 
 Separation of presentation from domain logic (http://martinfowler.com/bliki/PresentationDomainSeparation.html)
-is old proven design principle for a serious software. As more logic are required to implement in a browser 
-to support more responsiveness and freshness in a single page style application (e.g. gmail, google app), 
-Javascript MVC frameworks are born.
+is old proven design principle for a serious software. 
 
+More logic are required to implement in a browser to support more responsiveness and freshness of a single 
+page style application (e.g. gmail, google app), in which single button click or hover mouse  would not result 
+in sending a request to a server and waiting for response.
+
+Javascript MVC frameworksi(e.g. Backbone, AngularJS, Ember.js) are born to address the chanlenge of developing 
+complex browser based Javascript application.
+
+Refer to basic principle (http://martinfowler.com/eaaDev/SeparatedPresentation.html), The presentation (View) 
+is able to call a Model but not vice-versa although observer pattern can be used so the Model can notify the View 
+when it changes. 
+
+**Backbone**
+
+Backbone is Javascript MVC framework, more precisely MV framework because View and Controler roles are combined 
+into View.
+
+The View of Backbone is starting point of an application, which typically start in `jQuery(document).ready()`
+callback
+
+       $(function () {
+         ...
+         var App = new AppView;
+       });
+
+
+The Backbone View provides DOM event handler in declarative way using `events` attributes 
+
+       var AppView = Backbone.View.extend({
+         events: {
+           ...
+           "click #toggle-all": "toggleAllComplete"
+         }
+       }; 
+
+the format is `eventname selector: method`, where eventname and selector are from JQuery. The sematic
+is call `toggleAllComplete` if we click on DOM element returned by the selector. 
+
+see
+
+* http://api.jquery.com/category/events/ for JQuery event
+* http://api.jquery.com/category/selectors/ for JQuery selector
+
+
+There is different between DOM event and Model event. DOM event is real UI event like mouse click and key pressed 
+while Model events are invented in order to allow Model to notify View via observer pattern. 
+
+Backbone.Model events are 
+
+* change[:attribute]
+* sync
+* destroy
+* error
+
+Backbone.Collection events are 
+
+* add
+* remove
+* reset
+
+The `initialize` function being called during View construction is usually used to wire View function with 
+Model event, i.e.  specify which View' function get called when the Model fire an event.
+
+     initialize: function () {
+       this.model.bind('change', this.render, this);
+       this.model.bind('destroy', this.remove, this); // $(view.el).remove();
+     }
+
+Also used to cache reference of DOM elements to easy call DOM API in its functions.
+
+
+     initialize: function () {
+       ...
+       this.main = $('#main');
+     }
 
