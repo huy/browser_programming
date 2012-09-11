@@ -2,9 +2,9 @@
 
 ### Introduction
 
-**DOM**
+**Document Object Model - DOM**
 
-DOM - Document Object Model is foundation for human - machine interaction via web browser 
+Document Object Model is foundation for human - machine interaction via web browser 
 (e.g. IE, Chrome, Firefox).  Web browser receives data from web server over http protocol e.g. html page. 
 The browser must parse data and turn it into DOM data structure. 
 
@@ -47,36 +47,11 @@ when it changes.
 Backbone is Javascript MVC framework, more precisely MV framework because View and Controler roles are combined 
 into View.
 
-**View**
-
-The View of Backbone is starting point of an application, which typically start in `jQuery(document).ready()`
-callback
-
-       $(function () {
-         ...
-         var App = new AppView;
-       });
-
-
-The Backbone View provides DOM event handler in declarative way using `events` attributes 
-
-       var AppView = Backbone.View.extend({
-         events: {
-           ...
-           "click #toggle-all": "toggleAllComplete"
-         }
-       }; 
-
-the format is `eventname selector: method`, where eventname and selector are from JQuery. The sematic
-is call `toggleAllComplete` if we click on DOM element returned by the selector. 
-
-see
-
-* http://api.jquery.com/category/events/ for JQuery event
-* http://api.jquery.com/category/selectors/ for JQuery selector
+**DOM vs Model Event**
 
 There is different between DOM event and Model event. DOM event is real UI event like mouse click and key pressed 
-while Model events are invented in order to allow Model to notify View via observer pattern. 
+while Model events are invented in order to allow Model to notify View via observer pattern.  DOM events are 
+described in http://api.jquery.com/category/events/.
 
 Backbone.Model events are 
 
@@ -91,36 +66,62 @@ Backbone.Collection events are
 * remove
 * reset
 
+**View**
+
+The View of Backbone is starting point of an application, which typically start in `jQuery(document).ready()`
+callback
+
+       $(function () {
+         ...
+         var App = new AppView;
+       });
+
+The Backbone View provides DOM event handler in declarative way using `events` attributes 
+
+       var AppView = Backbone.View.extend({
+         events: {
+           ...
+           "click #toggle-all": "toggleAllComplete"
+         }
+       }; 
+
+The format is `eventname selector: method`, where eventname and selector are from JQuery, which means
+call `toggleAllComplete` if we click on DOM element returned by the CSS selector `#toggle-all`. 
+
+see
+
+* http://api.jquery.com/category/selectors/ for JQuery selector
+
 The `initialize` function being called during View construction is usually used to wire View function with 
-Model event, i.e.  specify which View' function get called when the Model fire an event.
+Model event, i.e.  specify which function of the view get called when the Model fire an event.
 
      initialize: function () {
        this.model.bind('change', this.render, this);
        this.model.bind('destroy', this.remove, this); // $(view.el).remove();
      }
 
-Also used to cache reference of DOM elements to easy call DOM API in its functions.
+Also used to cache reference of DOM elements make call DOM API easily and faster in its functions.
 
      initialize: function () {
        ...
        this.main = $('#main');
      }
 
-A View can associate with a existing DOM element e.g.
+A View can associate with DOM element, which exists in `Window.document` e.g.
 
       var AppView = Backbone.View.extend({
          el : $('#todoapp'),
          ...
       });
 
-or associated DOM element can be created using specified tag. In that case, DOM element can be later attached 
-to one of existing element of Window.document
+or can be created using specified `tagName`. 
 
       var TodoView = Backbone.View.extend({
          tagName: 'li',
          ...
       });
 
+In that case, DOM element can be later attached to one of existing element of `Window.document`
 
       var AppView = Backbone.View.extend({
         ...
