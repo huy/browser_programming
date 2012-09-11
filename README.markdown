@@ -1,8 +1,10 @@
-# Browser based programming
+## Browser based programming
+
+### Introduction
 
 **DOM**
 
-DOM - Document Object Model is foundation for human - machine interaction via web browseri 
+DOM - Document Object Model is foundation for human - machine interaction via web browser 
 (e.g. IE, Chrome, Firefox).  Web browser receives data from web server over http protocol e.g. html page. 
 The browser must parse data and turn it into DOM data structure. 
 
@@ -16,10 +18,13 @@ The API for access DOM is not part of Javascript engine itself but of layout/ren
 (e.g. webkit, gecko) of the browser. Javscript engine in browser just create a thin layer that
 facilitate access to DOM API implementation of the layout engine. 
 
+**jQuery and a like**
+
 The DOM API is not very well standard across different browsers so that why various DOM manipulation
-javascript libraries (e.g. jQuery) are created to solve this problem. These libaries can provide some
-additional features addressing to some obstacles of Javascript language and its core lib to make 
-programming in browser less painful e.g. API for Ajax.
+javascript libraries (e.g. jQuery) are created to solve this problem. 
+
+These libaries can provide some additional features addressing to some obstacles of Javascript language and 
+enhance its core lib to make programming in browser less pain (e.g. API for Ajax).
 
 **Javascript MVC**
 
@@ -37,10 +42,12 @@ Refer to basic principle (http://martinfowler.com/eaaDev/SeparatedPresentation.h
 is able to call a Model but not vice-versa although observer pattern can be used so the Model can notify the View 
 when it changes. 
 
-**Backbone**
+### Backbone
 
 Backbone is Javascript MVC framework, more precisely MV framework because View and Controler roles are combined 
 into View.
+
+**View**
 
 The View of Backbone is starting point of an application, which typically start in `jQuery(document).ready()`
 callback
@@ -68,7 +75,6 @@ see
 * http://api.jquery.com/category/events/ for JQuery event
 * http://api.jquery.com/category/selectors/ for JQuery selector
 
-
 There is different between DOM event and Model event. DOM event is real UI event like mouse click and key pressed 
 while Model events are invented in order to allow Model to notify View via observer pattern. 
 
@@ -94,7 +100,6 @@ Model event, i.e.  specify which View' function get called when the Model fire a
      }
 
 Also used to cache reference of DOM elements to easy call DOM API in its functions.
-
 
      initialize: function () {
        ...
@@ -126,6 +131,8 @@ to one of existing element of Window.document
         }, 
         ...
       });
+
+**Model**
 
 A model fire an event when certain method get called 
 
