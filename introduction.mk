@@ -101,3 +101,38 @@ Also used to cache reference of DOM elements to easy call DOM API in its functio
        this.main = $('#main');
      }
 
+A View can associate with a existing DOM element e.g.
+
+      var AppView = Backbone.View.extend({
+         el : $('#todoapp'),
+         ...
+      });
+
+or associated DOM element can be created using specified tag. In that case, DOM element can be later attached 
+to one of existing element of Window.document
+
+      var TodoView = Backbone.View.extend({
+         tagName: 'li',
+         ...
+      });
+
+
+      var AppView = Backbone.View.extend({
+        ...
+        addOne: function (todo) {
+           var view = new TodoView({model: todo});
+           view.render();
+           this.$('#todo-list').append(view.el);
+        }, 
+        ...
+      });
+
+A model fire an event when certain method get called 
+
+* set,unset, clear fire change event
+* validate fires event error if the validate return an error event
+* destroy fires destroy and sync events
+* save fires change and sync events
+* fetch fires change event
+
+
