@@ -4,36 +4,49 @@
 
 **Document Object Model - DOM**
 
-Document Object Model is foundation for human - machine interaction via web browser 
-(e.g. IE, Chrome, Firefox).  Web browser receives data from web server over http protocol e.g. html page. 
-The browser must parse data and turn it into DOM data structure. 
+Document Object Model is foundation for human - machine interaction via web browser (e.g. IE, Chrome, 
+Firefox).  Web browser receives data from server over http protocol e.g. html page. 
+The browser must parse data and turn it into DOM data structure, which is a tree with `window.document`
+as root. 
+
+Looking at `window.document` in Javascript console of Chrome we can see the tree based structure of an 
+html document
+
+        > window.document
+         #document
+               <!DOCTYPE html>
+            <html>
+              <head>_</head>
+              <body>_</body>
+            </html>  
 
 The browser then renders screen based on that DOM data structure. By modification of DOM data 
-structure we can change visual effect of a page as well as its interaction - customize event's handling. 
+structure we can change visual effect as well as interactive behaviour of its elements
+(what happen when a button is clicked or a key is pressed) . 
 
 The modification of DOM is obviously done by writing a piece of code in a programing language.
-The Javascript is de facto standard programming language of browser, it has API to access DOM. 
+As Javascript is de facto standard programming language of browser, it has API to access DOM. 
 
-The API for access DOM is not part of Javascript engine itself but of layout/rendering engine 
-(e.g. webkit, gecko) of the browser. Javscript engine in browser just create a thin layer that
+The API implementation for access DOM is not part of Javascript engine itself but of layout/rendering 
+engine (e.g. webkit, gecko) of the browser. Javascript engine in browser just create a thin layer that
 facilitate access to DOM API implementation of the layout engine. 
 
-**jQuery and a like**
+**jQuery and alike**
 
 The DOM API is not very well standard across different browsers so that why various DOM manipulation
-javascript libraries (e.g. jQuery) are created to solve this problem. 
+javascript libraries (e.g. jQuery, Zepto, Prototype.js) are created to solve this problem. 
 
-These libaries can provide some additional features addressing to some obstacles of Javascript language and 
-enhance its core lib to make programming in browser less pain (e.g. API for Ajax).
+These libaries usually provide some additional features addressing to some obstacles of Javascript 
+language and enhance its core lib to make programming in browser less pain (e.g. API for Ajax).
 
 **Javascript MVC**
 
 Separation of presentation from domain logic (http://martinfowler.com/bliki/PresentationDomainSeparation.html)
 is old proven design principle for a serious software. 
 
-More logic are required to implement in a browser to support more responsiveness and freshness of a single 
-page style application (e.g. gmail, google app), in which single button click or hover mouse  would not result 
-in sending a request to a server and waiting for response.
+As more logic is moved to browser to support more responsiveness and freshness of a single page style application 
+(e.g. gmail, google app), in which single button click or hover mouse  would not result in sending a request to 
+a server and waiting for response.
 
 Javascript MVC frameworksi(e.g. Backbone, AngularJS, Ember.js) are born to address the chanlenge of developing 
 complex browser based Javascript application.
