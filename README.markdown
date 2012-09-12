@@ -42,7 +42,7 @@ language and enhance its core lib to make programming in browser less pain (e.g.
 **Javascript MVC**
 
 Separation of presentation from domain logic (http://martinfowler.com/bliki/PresentationDomainSeparation.html)
-is old proven design principle for a serious software. 
+is old proven design principle for developing a serious software. 
 
 As more logic is moved to browser to support more responsiveness and freshness of a single page style application 
 (e.g. gmail, google app), in which single button click or hover mouse  would not result in sending a request to 
@@ -51,10 +51,6 @@ a server and waiting for response.
 Javascript MVC frameworksi(e.g. Backbone, AngularJS, Ember.js) are born to address the chanlenge of developing 
 complex browser based Javascript application.
 
-Refer to basic principle (http://martinfowler.com/eaaDev/SeparatedPresentation.html), The presentation (View) 
-is able to call a Model but not vice-versa although observer pattern can be used so the Model can notify the View 
-when it changes. 
-
 ### Backbone
 
 Backbone is Javascript MVC framework, more precisely MV framework because View and Controler roles are combined 
@@ -62,7 +58,7 @@ into View.
 
 **DOM vs Model Event**
 
-There is different between DOM event and Model event. DOM event is real UI event like mouse click and key pressed 
+There is different between DOM event and Model event. DOM event is real UI event like mouse clicked or key pressed 
 while Model events are invented in order to allow Model to notify View via observer pattern.  DOM events are 
 described in http://api.jquery.com/category/events/.
 
@@ -81,7 +77,7 @@ Backbone.Collection events are
 
 **View**
 
-The View of Backbone is starting point of an application, which typically start in `jQuery(document).ready()`
+The View of Backbone can be a starting point of an application, which typically start in `jQuery(document).ready()`
 callback
 
        $(function () {
@@ -105,7 +101,7 @@ see
 
 * http://api.jquery.com/category/selectors/ for JQuery selector
 
-The `initialize` function being called during View construction is usually used to wire View function with 
+The `initialize` function being called during View construction is usually used to wire View' methods  with 
 Model event, i.e.  specify which function of the view get called when the Model fire an event.
 
      initialize: function () {
@@ -113,7 +109,8 @@ Model event, i.e.  specify which function of the view get called when the Model 
        this.model.bind('destroy', this.remove, this); // $(view.el).remove();
      }
 
-Also used to cache reference of DOM elements make call DOM API easily and faster in its functions.
+In the `initialize` we also cache references of  DOM elements so we can make call DOM API easily and faster 
+in the View.
 
      initialize: function () {
        ...
@@ -148,12 +145,19 @@ In that case, DOM element can be later attached to one of existing element of `W
 
 **Model**
 
-A model fire an event when certain method get called 
+Refer to basic principle (http://martinfowler.com/eaaDev/SeparatedPresentation.html), The presentation (View) 
+is able to call a Model but not vice-versa. In order to notify the View about change of the model, observer 
+pattern is employed. 
 
-* set,unset, clear fire change event
-* validate fires event error if the validate return an error event
-* destroy fires destroy and sync events
-* save fires change and sync events
-* fetch fires change event
+A Model fire predefined events when certain methods get called. Following are predefined events of the Backbone
+Model. 
 
+* `set`, `unset`, `clear` fire `change` event
+* `validate` fires `error` event if the `validate` return an error
+* `destroy` fires `destroy` and `sync` events
+* `save` fires `change` and `sync` events
+* `fetch` fires `change` event
 
+As seen these events are fairly generic and just reflects a data anemic model (see http://en.wikipedia.org/wiki/Anemic_domain_model).
+So it is important to know that if we want to notify a View about when our method is called, then we need to define 
+our own event and fire this event using `trigger(event, [*args])` in the course of the method.
