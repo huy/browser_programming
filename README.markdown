@@ -39,6 +39,16 @@ javascript libraries (e.g. jQuery, Zepto, Prototype.js) are created to solve thi
 These libaries usually provide some additional features addressing to some obstacles of Javascript 
 language and enhance its core lib to make programming in browser less pain (e.g. API for Ajax).
 
+Example of DOM API vs jQuery
+
+        var containerA = document.getElementById("jsoneditor"); // DOM API
+        var containerB = $('#jsoneditor').get(0); // equivalent jQuery
+
+        containA.setAttribute('class', 'selected'); // DOM API
+        $(containerB).addClass('selected'); // equivalent jQuery
+
+        $('#jsoneditor').addClass('selected'); // compact jQuery expression 
+
 **Javascript MVC**
 
 Separation of presentation from domain logic (http://martinfowler.com/bliki/PresentationDomainSeparation.html)
@@ -73,7 +83,7 @@ are described in http://api.jquery.com/category/events/.
 The View of Backbone can be a starting point of an application, which typically start in `jQuery(document).ready()`
 callback
 
-       $(function () {
+       $(function () { // same as $(document).ready(function () {
          ...
          var App = new AppView;
        });
