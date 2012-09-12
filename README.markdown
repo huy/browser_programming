@@ -54,26 +54,19 @@ complex browser based Javascript application.
 ### Backbone
 
 Backbone is Javascript MVC framework, more precisely MV framework because View and Controler roles are combined 
-into View.
+into View. 
+
+Backbone consists of 3 type of objects
+
+* View : part of View layer
+* Model : part of Model layer
+* Collection : part of Model layer
 
 **DOM vs Model Event**
 
-There is different between DOM event and Model event. DOM event is real UI event like mouse clicked or key pressed 
-while Model events are invented in order to allow Model to notify View via observer pattern.  DOM events are 
-described in http://api.jquery.com/category/events/.
-
-Backbone.Model events are 
-
-* change[:attribute]
-* sync
-* destroy
-* error
-
-Backbone.Collection events are 
-
-* add
-* remove
-* reset
+There is different between DOM event (i.e. View event) and Model event. DOM event is real UI event like mouse clicked 
+or key pressed while Model events are invented in order to allow Model to notify View via observer pattern.  DOM events 
+are described in http://api.jquery.com/category/events/.
 
 **View**
 
@@ -143,7 +136,7 @@ In that case, DOM element can be later attached to one of existing element of `W
         ...
       });
 
-**Model**
+**Model Object**
 
 Refer to basic principle (http://martinfowler.com/eaaDev/SeparatedPresentation.html), The presentation (View) 
 is able to call a Model but not vice-versa. In order to notify the View about change of the model, observer 
@@ -158,6 +151,19 @@ Model.
 * `save` fires `change` and `sync` events
 * `fetch` fires `change` event
 
-As seen these events are fairly generic and just reflects a data anemic model (see http://en.wikipedia.org/wiki/Anemic_domain_model).
+As seen these events are fairly generic meaning that the Model just represent a pure structured data, a kind of 
+anemic model (see http://en.wikipedia.org/wiki/Anemic_domain_model), which may not be optimal design.
+
 So it is important to know that if we want to notify a View about when our method is called, then we need to define 
 our own event and fire this event using `trigger(event, [*args])` in the course of the method.
+
+**Collection Object**
+
+Backbone collection belong do Model layer. This is container for Model Object and offers generic methods mainly for
+dealing with persistence. A Backbone collection fires the following predefined events 
+Model. 
+
+* `add`, `push`, `unshift` fire `add` event
+* `remove`, `pop`, `shift` fire `remove` event
+* `reset`, `sort` fires `reset` event
+
