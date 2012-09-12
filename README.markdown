@@ -120,7 +120,7 @@ in the View.
        this.main = $('#main');
      }
 
-A View can associate with DOM element, which exists in `Window.document` e.g.
+A View can associate with DOM element, which exists in `window.document` e.g.
 
       var AppView = Backbone.View.extend({
          el : $('#todoapp'),
@@ -134,7 +134,7 @@ or can be created using specified `tagName`.
          ...
       });
 
-In that case, DOM element can be later attached to one of existing element of `Window.document`
+In that case, DOM element can be later attached to one of existing element of `window.document`
 
       var AppView = Backbone.View.extend({
         ...
@@ -166,6 +166,8 @@ anemic model (see http://en.wikipedia.org/wiki/Anemic_domain_model), which may n
 
 So it is important to know that if we want to notify a View about when our method is called, then we need to define 
 our own event and fire this event using `trigger(event, [*args])` in the course of the method.
+
+Attempt to change attributes of the Model without using `set` method will not emit any events.
 
 **Collection Object**
 
