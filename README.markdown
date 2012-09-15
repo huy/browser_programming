@@ -58,7 +58,7 @@ As more logic is moved to browser to support more responsiveness and freshness o
 (e.g. gmail, google app), in which single button click or hover mouse  would not result in sending a request to 
 a server and waiting for response.
 
-Javascript MVC frameworksi(e.g. Backbone, AngularJS, Ember.js) are born to address the chanlenge of developing 
+Javascript MVC framework (e.g. Backbone, AngularJS, Ember.js) are born to address the chanlenge of developing 
 complex browser based Javascript application.
 
 ### Backbone
@@ -78,17 +78,9 @@ There is different between DOM event (i.e. View event) and Model event. DOM even
 or key pressed while Model events are invented in order to allow Model to notify View via observer pattern.  DOM events 
 are described in http://api.jquery.com/category/events/.
 
-**View**
+**View as controller**
 
-The View of Backbone can be a starting point of an application, which typically start in `jQuery(document).ready()`
-callback
-
-       $(function () { // same as $(document).ready(function () {
-         ...
-         var App = new AppView;
-       });
-
-The Backbone View provides DOM event handler in declarative way using `events` attributes 
+As controller, Backbone View provides DOM event handler in declarative way using `events` attributes 
 
        var AppView = Backbone.View.extend({
          events: {
@@ -99,6 +91,7 @@ The Backbone View provides DOM event handler in declarative way using `events` a
 
 The format is `eventname selector: method`, where eventname and selector are from JQuery, which means
 call `toggleAllComplete` if we click on DOM element returned by the CSS selector `#toggle-all`. 
+The method defined as an event handler of  the View can call Model Layer, other Views and utilities.
 
 see
 
@@ -112,6 +105,15 @@ Model event, i.e.  specify which function of the view get called when the Model 
        this.model.bind('destroy', this.remove, this); // $(view.el).remove();
      }
 
+**View as view**
+
+The idea behind View `render` function is constructs detached DOM element in memory, so can be attached
+later (by other View) to produce visual side effect. This will result in faster rendering and smooth 
+visual change . 
+
+A View is associated with a attached DOM element, which exists in `window.document` but unless it is main
+application view, it is anti pattern, which is against its purpose. 
+
 In the `initialize` we also cache references of  DOM elements so we can make call DOM API easily and faster 
 in the View.
 
@@ -120,21 +122,20 @@ in the View.
        this.main = $('#main');
      }
 
-A View can associate with DOM element, which exists in `window.document` e.g.
+e.g. of main application View, that is associated with existing DOM element
 
       var AppView = Backbone.View.extend({
          el : $('#todoapp'),
          ...
       });
 
-or can be created using specified `tagName`. 
+e.g. of View with detached DOM element that is not yet inserted to the page,in that case, DOM element 
+is later attached to one of existing element of `window.document`
 
       var TodoView = Backbone.View.extend({
          tagName: 'li',
          ...
       });
-
-In that case, DOM element can be later attached to one of existing element of `window.document`
 
       var AppView = Backbone.View.extend({
         ...
@@ -145,6 +146,9 @@ In that case, DOM element can be later attached to one of existing element of `w
         }, 
         ...
       });
+
+There is library (e.g. JQueryUI) that may require attached DOM elements during its construction, so
+create detached DOM may not work.
 
 **Model Object**
 
@@ -178,4 +182,14 @@ Model.
 * `add`, `push`, `unshift` fire `add` event
 * `remove`, `pop`, `shift` fire `remove` event
 * `reset`, `sort` fires `reset` event
+
+**Application**
+
+The View of Backbone can be used a starting point of an application, which typically start in `jQuery(document).ready()`
+callback
+
+       $(function () { // same as $(document).ready(function () {
+         ...
+         var App = new AppView;
+       });
 
